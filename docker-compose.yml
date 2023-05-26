@@ -4,7 +4,7 @@ services:
   mail:
     image: mailserver/docker-mailserver:latest
     hostname: mail
-    domainname: mail.simatei.com
+    domainname: simatei.com
     container_name: mail
     ports:
       - "587:587"
@@ -26,7 +26,7 @@ services:
       - SYS_PTRACE
 
   webmail:
-    build: ./src  
+    build: ./src
     container_name: webmail
     ports:
       - "8080:80"
