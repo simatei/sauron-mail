@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  mail:
+    image: mailserver/docker-mailserver:latest
+    hostname: mail
+    domainname: mail.simatei.com
+    container_name: mail
+    ports:
+      - "587:587"
+      - "143:143"
+      - "993:993"
+    volumes:
+      - maildata:/var/mail
+      - mailstate:/var/mail-state
+      - ./config/:/tmp/docker-mailserver/
+    environment:
+      - ENABLE_SPAMASSASSIN=1
+      - ENABLE_CLAMAV=1
+      - ENABLE_FAIL2BAN=1
+      - ENABLE_POSTGREY=1
+      - ONE_DIR=1
+      - DMS_DEBUG=0
+    cap_add:
+      - NET_ADMIN
+      - SYS_PTRACE
+
+  webmail:
+    build: ./src  
+    container_name: webmail
+    ports:
+      - "8080:80"
+    volumes:
+      - webmail:/var/roundcube
+    environment:
+      - ROUNDCUBEMAIL_DEFAULT_HOST=mail
+
+volumes:
+  maildata:
+    driver: local
+  mailstate:
+    driver: local
+  webmail:
+    driver: local
