@@ -4,7 +4,7 @@ services:
   mail:
     image: mailserver/docker-mailserver:latest
     hostname: mail
-    domainname: simatei.com
+    domainname: simatei.co.ke
     container_name: mail
     ports:
       - "587:587"
